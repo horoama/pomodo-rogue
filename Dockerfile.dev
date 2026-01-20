@@ -3,12 +3,21 @@ FROM node:20-alpine
 
 WORKDIR /app
 
+# Proxy settings
+ARG HTTP_PROXY
+ARG HTTPS_PROXY
+ENV HTTP_PROXY=$HTTP_PROXY
+ENV HTTPS_PROXY=$HTTPS_PROXY
+
 # Install dependencies needed for native modules or expo tools if any
 RUN apk add --no-cache git bash
 
 COPY package.json package-lock.json ./
 
-RUN npm install
+# Configure npm proxy if arguments are provided
+RUN if [ -n "$HTTP_PROXY" ]; then npm config set proxy $HTTP_PROXY; fi && \
+    if [ -n "$HTTPS_PROXY" ]; then npm config set https-proxy $HTTPS_PROXY; fi && \
+    npm install
 
 # Copy source code is handled by volume mount in compose, but good to have for simple run
 COPY . .
