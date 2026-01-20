@@ -1,0 +1,24 @@
+# Development Dockerfile
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install dependencies needed for native modules or expo tools if any
+RUN apk add --no-cache git bash
+
+COPY package.json package-lock.json ./
+
+RUN npm install
+
+# Copy source code is handled by volume mount in compose, but good to have for simple run
+COPY . .
+
+# Expo default port
+EXPOSE 8081
+
+# Metro bundler port
+EXPOSE 19000
+EXPOSE 19001
+EXPOSE 19002
+
+CMD ["npm", "start", "--", "--host", "0.0.0.0"]
