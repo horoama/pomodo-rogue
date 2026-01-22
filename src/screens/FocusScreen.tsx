@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, Button, AppState, AppStateStatus, Platform } from 'react-native';
+import { View, Text, StyleSheet, Button, AppState, AppStateStatus, Platform, Image } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useGameStore } from '../store/gameStore';
 import { setLanguage } from '../i18n';
@@ -102,8 +102,16 @@ export const FocusScreen = () => {
 
       {/* Visual representation of the adventurer (Placeholder) */}
       <View style={styles.adventurerContainer}>
-          <Text style={styles.adventurer}>🧘</Text>
-          <Text style={styles.fire}>🔥</Text>
+          <Image
+            source={require('../../assets/adventurer.png')}
+            style={styles.adventurerImage}
+            resizeMode="contain"
+          />
+          <Image
+            source={require('../../assets/fire.png')}
+            style={styles.fireImage}
+            resizeMode="contain"
+          />
       </View>
 
       <View style={styles.weaponStatus}>
@@ -157,13 +165,16 @@ const styles = StyleSheet.create({
   adventurerContainer: {
       flexDirection: 'row',
       marginBottom: 30,
+      alignItems: 'flex-end',
   },
-  adventurer: {
-      fontSize: 50,
+  adventurerImage: {
+      width: 64,
+      height: 64,
+      marginRight: 10,
   },
-  fire: {
-      fontSize: 50,
-      marginLeft: 10,
+  fireImage: {
+      width: 48,
+      height: 48,
   },
   weaponStatus: {
       backgroundColor: '#333',
